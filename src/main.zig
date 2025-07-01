@@ -89,12 +89,14 @@ fn readWords(allocator: Allocator, filename: []const u8) ![][]u8 {
 
     const reader = file.reader();
 
-    while (try reader.readUntilDelimiterOrEofAlloc(allocator, '\n', Solver.WORD_LEN + 1)) |line| {
-        if (line.len != Solver.WORD_LEN) {
+    while (try reader.readUntilDelimiterOrEofAlloc(allocator, '\n', Solver.WORD_LEN + 3)) |line| {
+        const trimmed_line = std.mem.trim(u8, line, &std.ascii.whitespace);
+
+        if (trimmed_line.len != Solver.WORD_LEN) {
             return error.InvalidWordLength;
         }
 
-        try words.append(line);
+        try words.append(@constCast(trimmed_line));
     }
 
     return words.toOwnedSlice();
