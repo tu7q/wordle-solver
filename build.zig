@@ -39,12 +39,6 @@ pub fn build(b: *std.Build) void {
     });
     exe_mod.addImport("ziglet", ziglet.module("ziglet"));
 
-    const clap = b.dependency("clap", .{
-        .target = target,
-        .optimize = optimize,
-    });
-    exe_mod.addImport("clap", clap.module("clap"));
-
     const datetime = b.dependency("datetime", .{
         .target = target,
         .optimize = optimize,
